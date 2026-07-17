@@ -6,8 +6,8 @@ import { cn } from '../lib/utils';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'ÑañoClean - Dashboard',
-  description: 'Sistema IoT de clasificación y monitoreo de residuos urbanos',
+  title: 'ÑañoClean',
+  description: 'Sistema inteligente de gestión y clasificación de residuos urbanos basado en IoT, ESP32 y visión artificial.',
 };
 
 export default function RootLayout({

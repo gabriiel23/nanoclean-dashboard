@@ -96,8 +96,8 @@ export default function PantallaClasificacion() {
       {/* Header Público */}
       <header className="p-6 md:p-8 flex flex-col sm:flex-row justify-center items-center gap-6 relative">
         {/* Botón Volver (Mejorado y responsivo) */}
-        <Link 
-          href="/" 
+        <Link
+          href="/dashboard"
           className="sm:absolute sm:left-8 flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 bg-white border-2 border-[#1B4332] rounded-xl shadow-lg text-[#1B4332] font-bold hover:bg-[#1B4332] hover:text-white transition-all z-50 group self-start sm:self-auto"
         >
           <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover:-translate-x-1" />

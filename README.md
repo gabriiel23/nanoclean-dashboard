@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ÑañoClean · Web
 
-## Getting Started
+Aplicación web unificada de **ÑañoClean**, sistema inteligente de gestión y
+clasificación de residuos urbanos (IoT + ESP32 + visión artificial). Un solo
+proyecto Next.js que sirve dos cosas:
 
-First, run the development server:
+| Ruta | Qué es |
+|------|--------|
+| `/` | **Landing** — página principal de presentación del producto. |
+| `/dashboard` | **Dashboard** — panel de control en tiempo real (contenedores, nodos, alertas, ajustes). |
+| `/clasificacion` | Pantalla pública de clasificación en vivo (kiosko junto al contenedor). |
+
+La landing y el dashboard están enlazados en ambos sentidos:
+
+- En la landing, la cabecera tiene el botón **"Ir al Dashboard"** (y enlaces en el footer).
+- En el dashboard, la cabecera tiene **"Sitio web"** y el sidebar **"Volver al sitio"**,
+  que regresan a la landing.
+
+## Stack
+
+- **Next.js 16** (App Router) + **React 19**
+- **Tailwind CSS v4** para el dashboard
+- CSS propio (acotado bajo `.landing`) para la landing
+- `lucide-react`, `recharts`, `leaflet`, `socket.io-client`
+
+## Correr en local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre `http://localhost:3000`. La landing queda en `/` y el dashboard en `/dashboard`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Compilar para producción
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Estructura
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/
+├── layout.tsx                 # layout raíz (html/body, fuente Inter)
+├── page.tsx                   # LANDING  → "/"
+├── landing.css                # estilos de la landing (scoped bajo .landing)
+├── globals.css                # Tailwind (dashboard)
+├── clasificacion/             # kiosko público → "/clasificacion"
+└── dashboard/                 # DASHBOARD → "/dashboard/*"
+    ├── layout.tsx             # DashboardShell (sidebar + navbar)
+    ├── page.tsx               # panel de control
+    ├── alertas/  nodos/  contenedores/  ajustes/  clasificaciones-stats/
+components/
+├── landing/                   # Hero, Telemetria, Problema, Arquitectura,
+│                              # Clasificacion, Fase, Equipo, Footer, LandingNav
+├── layout/                    # Sidebar, Navbar, DashboardShell
+└── dashboard/                 # StatCard, Chart, BinVisualizer, ContainerMap, ...
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Imágenes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+La landing usa fotografías de **Unsplash** (Unsplash License: uso libre y
+comercial, sin atribución obligatoria), servidas optimizadas desde su CDN. Las
+URLs están centralizadas en `components/landing/images.ts`.
 
-## Deploy on Vercel
+## Equipo
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Denis L. Rodríguez · Gabriel A. Diaz · Nicolas A. Cevallos · Nicole B. Abad
+— Universidad Internacional del Ecuador · Smart Cities y gestión ambiental.

@@ -8,7 +8,7 @@ export default async function NodoDetallePage({ params }: { params: Promise<{ id
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <Link href="/nodos" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+      <Link href="/dashboard/nodos" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
         <ArrowLeft className="w-4 h-4" />
         Volver a Nodos
       </Link>
