@@ -1,5 +1,11 @@
 import Link from 'next/link';
 import { ArrowLeft, MapPin, Battery, Activity } from 'lucide-react';
+import { mockContenedores } from '../../../../data/mockData';
+
+// Pre-genera una página estática por cada contenedor conocido (export estático).
+export function generateStaticParams() {
+  return mockContenedores.map((c) => ({ id: c.id }));
+}
 
 export default async function ContenedorDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;

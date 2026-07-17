@@ -34,10 +34,16 @@ Abre `http://localhost:3000`. La landing queda en `/` y el dashboard en `/dashbo
 
 ## Compilar para producción
 
+El proyecto usa `output: "export"` (Next.js), así que el build genera un sitio
+**estático** en la carpeta `out/`, que cualquier servidor web (Nginx) puede
+servir directamente — sin proceso ni puerto.
+
 ```bash
-npm run build
-npm run start
+npm run build      # genera out/
 ```
+
+El despliegue en el servidor (Nginx + Certbot, subdominio `nanoclean.uidehub.tech`)
+está documentado paso a paso en [`deploy/DEPLOY.md`](deploy/DEPLOY.md).
 
 ## Estructura
 

@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { ArrowLeft, Cpu, Wifi, ActivitySquare } from 'lucide-react';
 import { cn } from '../../../../lib/utils';
+import { mockNodos } from '../../../../data/mockData';
+
+// Pre-genera una página estática por cada nodo conocido (export estático).
+export function generateStaticParams() {
+  return mockNodos.map((n) => ({ id: n.id }));
+}
 
 export default async function NodoDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
