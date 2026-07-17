@@ -1,0 +1,21 @@
+# ==========================================================================
+# ÑañoClean · Web — despliegue con Docker
+#
+#   docker compose up -d --build      # construye y levanta
+#   docker compose logs -f            # ver logs
+#   docker compose down               # detener
+#
+# El contenedor se publica SOLO en 127.0.0.1:3001 (no queda expuesto por IP).
+# Nginx en el host hace de reverse proxy: nanoclean.uidehub.tech -> 127.0.0.1:3001
+# ==========================================================================
+
+services:
+  nanoclean-web:
+    build: .
+    image: nanoclean-web:latest
+    container_name: nanoclean-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:3000"
+    environment:
+      - NODE_ENV=production
