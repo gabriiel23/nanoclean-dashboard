@@ -37,7 +37,7 @@ export default function ContainerCard({ contenedor }: ContainerCardProps) {
   }
 
   return (
-    <Link href={`/contenedores/${id}`} className="block transition-all hover:-translate-y-1 hover:shadow-md rounded-3xl">
+    <Link href={`/dashboard/contenedores/${id}`} className="block transition-all hover:-translate-y-1 hover:shadow-md rounded-3xl">
       <div className={cn(
         "relative p-5 rounded-3xl shadow-sm border flex overflow-hidden h-full",
         colorTheme.cardBg,

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Leaf, LayoutDashboard, Component, Bell, Settings, Cpu, X } from 'lucide-react';
+import { Leaf, LayoutDashboard, Component, Bell, Settings, Cpu, Globe, X } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 interface SidebarProps {
@@ -15,7 +15,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
   const navItems = [
     {
       name: 'Dashboard',
-      href: '/',
+      href: '/dashboard',
       icon: <LayoutDashboard className="w-5 h-5" />,
     },
     {
@@ -25,13 +25,13 @@ export default function Sidebar({ onClose }: SidebarProps) {
     },
     {
       name: 'Alertas',
-      href: '/alertas',
+      href: '/dashboard/alertas',
       icon: <Bell className="w-5 h-5" />,
       hasNotification: true,
     },
     {
       name: 'Nodos',
-      href: '/nodos',
+      href: '/dashboard/nodos',
       icon: <Cpu className="w-5 h-5" />,
     },
   ];
@@ -40,10 +40,10 @@ export default function Sidebar({ onClose }: SidebarProps) {
     <aside className="w-[240px] h-full bg-white border-r border-gray-100 flex flex-col">
       {/* Logo + botón de cierre (solo visible en mobile) */}
       <div className="p-6 pb-8 flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2" aria-label="Ir a la página principal">
           <Leaf className="w-6 h-6 text-[#1B4332]" fill="currentColor" />
           <span className="text-[#1B4332] font-bold text-xl tracking-tight">ÑañoClean</span>
-        </div>
+        </Link>
         {/* Botón cerrar: solo visible en móvil */}
         <button
           onClick={onClose}
@@ -81,13 +81,20 @@ export default function Sidebar({ onClose }: SidebarProps) {
         })}
       </nav>
 
-      {/* Ajustes al fondo */}
-      <div className="p-4 mb-4">
+      {/* Volver al sitio + Ajustes al fondo */}
+      <div className="p-4 mb-4 space-y-1">
         <Link
-          href="/ajustes"
+          href="/"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-800"
+        >
+          <Globe className="w-5 h-5" />
+          <span>Volver al sitio</span>
+        </Link>
+        <Link
+          href="/dashboard/ajustes"
           className={cn(
             "flex items-center gap-3 px-4 py-3 rounded-xl transition-colors text-sm font-medium",
-            pathname === '/ajustes'
+            pathname === '/dashboard/ajustes'
               ? "bg-[#52B788]/20 text-[#1B4332]"
               : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
           )}

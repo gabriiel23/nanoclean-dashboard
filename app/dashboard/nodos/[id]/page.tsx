@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { ArrowLeft, Cpu, Wifi, ActivitySquare } from 'lucide-react';
 import { cn } from '../../../../lib/utils';
+import { mockNodos } from '../../../../data/mockData';
+
+// Pre-genera una página estática por cada nodo conocido (export estático).
+export function generateStaticParams() {
+  return mockNodos.map((n) => ({ id: n.id }));
+}
 
 export default async function NodoDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -8,7 +14,7 @@ export default async function NodoDetallePage({ params }: { params: Promise<{ id
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <Link href="/nodos" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+      <Link href="/dashboard/nodos" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
         <ArrowLeft className="w-4 h-4" />
         Volver a Nodos
       </Link>

@@ -102,7 +102,7 @@ export default function ContainerMap({ contenedores }: Props) {
               </button>
             ))}
           </div>
-          <Link href="/contenedores" className="text-[11px] font-semibold text-[#52B788] hover:underline whitespace-nowrap">
+          <Link href="/dashboard/contenedores" className="text-[11px] font-semibold text-[#52B788] hover:underline whitespace-nowrap">
             Ver lista →
           </Link>
         </div>

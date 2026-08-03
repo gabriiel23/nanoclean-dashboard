@@ -1,5 +1,11 @@
 import Link from 'next/link';
 import { ArrowLeft, MapPin, Battery, Activity } from 'lucide-react';
+import { mockContenedores } from '../../../../data/mockData';
+
+// Pre-genera una página estática por cada contenedor conocido (export estático).
+export function generateStaticParams() {
+  return mockContenedores.map((c) => ({ id: c.id }));
+}
 
 export default async function ContenedorDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -7,7 +13,7 @@ export default async function ContenedorDetallePage({ params }: { params: Promis
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <Link href="/contenedores" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+      <Link href="/dashboard/contenedores" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
         <ArrowLeft className="w-4 h-4" />
         Volver a la lista
       </Link>

@@ -1,16 +1,17 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { Bell, Menu } from 'lucide-react';
+import { Bell, Menu, Globe } from 'lucide-react';
 import Link from 'next/link';
 
 const PAGE_TITLES: Record<string, { title: string; subtitle: string }> = {
-  '/':               { title: 'Panel de Control', subtitle: 'Loja, Ecuador · Actualizado ahora' },
-  '/clasificacion':  { title: 'Clasificación', subtitle: 'Cámara de clasificación YOLOv8' },
-  '/alertas':        { title: 'Alertas', subtitle: 'Historial de eventos del sistema' },
-  '/nodos':          { title: 'Estado de Nodos', subtitle: 'Red de sensores ESP32' },
-  '/contenedores':   { title: 'Flota de Contenedores', subtitle: 'Todos los contenedores registrados' },
-  '/ajustes':        { title: 'Ajustes', subtitle: 'Configuración del sistema' },
+  '/dashboard':                     { title: 'Panel de Control', subtitle: 'Loja, Ecuador · Actualizado ahora' },
+  '/clasificacion':                 { title: 'Clasificación', subtitle: 'Cámara de clasificación YOLOv8' },
+  '/dashboard/clasificaciones-stats': { title: 'Clasificaciones', subtitle: 'Estadísticas del clasificador' },
+  '/dashboard/alertas':             { title: 'Alertas', subtitle: 'Historial de eventos del sistema' },
+  '/dashboard/nodos':               { title: 'Estado de Nodos', subtitle: 'Red de sensores ESP32' },
+  '/dashboard/contenedores':        { title: 'Flota de Contenedores', subtitle: 'Todos los contenedores registrados' },
+  '/dashboard/ajustes':             { title: 'Ajustes', subtitle: 'Configuración del sistema' },
 };
 
 interface NavbarProps {
@@ -43,7 +44,15 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
 
       <div className="flex items-center gap-3">
         <Link
-          href="/alertas"
+          href="/"
+          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:border-[#52B788] hover:text-[#1B4332] transition-colors"
+          aria-label="Ir al sitio web"
+        >
+          <Globe className="w-4 h-4" />
+          <span className="text-xs font-semibold">Sitio web</span>
+        </Link>
+        <Link
+          href="/dashboard/alertas"
           className="relative w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
           aria-label="Ver alertas"
         >
