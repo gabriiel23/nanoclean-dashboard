@@ -4,8 +4,12 @@
    desde el CDN de Unsplash con formato y tamaño automáticos.
    ========================================================================== */
 
-const U = (id: string, w = 1200) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&q=80&w=${w}`;
+const U = (id: string, w = 1200) => {
+  if (id.startsWith('http://') || id.startsWith('https://')) {
+    return id;
+  }
+  return `https://images.unsplash.com/${id}?auto=format&fit=crop&q=80&w=${w}`;
+};
 
 export const IMG = {
   // Hero: contenedores de reciclaje clasificados por color.
@@ -15,11 +19,11 @@ export const IMG = {
   problema: U('photo-1605600659908-0ef719419d41', 1000),
 
   // Clasificación · una foto por categoría de residuo.
+  carton_papel: U('photo-1530587191325-3db32d826c18', 720),
+  plastico: U('photo-1526951521990-620dc14c214b', 720),
   organico: U('photo-1542601906990-b4d3fb778b09', 720),
-  plastico: U('photo-1571727153934-b9e0059b7ab2', 720),
-  vidrio: U('photo-1706468808971-ee72122572b6', 720),
-  metal: U('photo-1696739696228-eee49592ff07', 720),
 
   // Arquitectura: trabajo de ingeniería sobre el nodo Edge.
   arquitectura: U('photo-1581091226825-a6a2a5aee158', 1100),
 } as const;
+

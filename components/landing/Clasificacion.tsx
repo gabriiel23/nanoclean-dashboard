@@ -4,10 +4,9 @@ import { useReveal } from './useReveal';
 import { IMG } from './images';
 
 const materiales = [
-  { nombre: 'Orgánico', clave: 'organico', nota: 'Restos de comida y material biodegradable.', img: IMG.organico, alt: 'Manos sosteniendo tierra fértil y hojas' },
-  { nombre: 'Plástico', clave: 'plastico', nota: 'Envases, botellas y films reciclables.', img: IMG.plastico, alt: 'Botellas de plástico listas para reciclar' },
-  { nombre: 'Vidrio', clave: 'vidrio', nota: 'Botellas y frascos de vidrio.', img: IMG.vidrio, alt: 'Botellas de vidrio recolectadas para reciclaje' },
-  { nombre: 'Metal', clave: 'metal', nota: 'Latas y envases metálicos.', img: IMG.metal, alt: 'Latas de aluminio' },
+  { nombre: 'Carton y papel', clave: 'carton-papel', nota: 'Papel, cartón, periódicos y revistas.', img: IMG.carton_papel, alt: 'Caja de cartón' },
+  { nombre: 'Plástico', clave: 'plastico', nota: 'Botellas de plástico, envases, bolsas y films.', img: IMG.plastico, alt: 'Botellas de plástico listas para reciclar' },
+  { nombre: 'Organicos', clave: 'organicos', nota: 'Restos de comida, cáscaras y materia biodegradable.', img: IMG.organico, alt: 'Restos de comida' },
 ];
 
 export default function Clasificacion() {
@@ -29,9 +28,11 @@ export default function Clasificacion() {
         <div className="materials">
           {materiales.map((m) => (
             <div className={'material material--' + m.clave} key={m.clave}>
+
               <div className="material__photo">
                 <img src={m.img} alt={m.alt} loading="lazy" />
               </div>
+
               <div className="material__body">
                 <span className="material__name">
                   <span className="material__swatch" />
@@ -39,6 +40,7 @@ export default function Clasificacion() {
                 </span>
                 <span className="material__note">{m.nota}</span>
               </div>
+              
             </div>
           ))}
         </div>
