@@ -13,7 +13,7 @@ export function useDashboardData() {
     // 1. Carga Inicial REST
     async function fetchInitialData() {
       try {
-        const res = await fetch('http://10.115.178.214:3000/api/dashboard');
+        const res = await fetch('http://localhost:3001/api/dashboard');
         if (!res.ok) throw new Error('Error al cargar datos del backend');
         const json = await res.json();
         setData(json);
@@ -27,7 +27,7 @@ export function useDashboardData() {
     fetchInitialData();
 
     // 2. Conexión WebSocket
-    const socket: Socket = io('http://10.115.178.214:3000');
+    const socket: Socket = io('http://localhost:3001');
 
     socket.on('sensorData', (newData: any) => {
       // newData esperado: { sensor: 'sensor1', distancia: 6.76, porcentajeLlenado: 77.5, timestamp: '...' }
@@ -37,9 +37,10 @@ export function useDashboardData() {
         const timestamp = newData.timestamp || new Date().toISOString();
         const porcentaje = newData.porcentajeLlenado ?? 0;
         
-        // Actualizar el contenedor específico
+        let found = false;
         const contenedores = prev.contenedores.map(c => {
           if (c.id === newData.sensor) {
+            found = true;
             return {
               ...c,
               distanciaActual: newData.distancia ?? c.distanciaActual,
@@ -50,6 +51,18 @@ export function useDashboardData() {
           }
           return c;
         });
+
+        if (!found) {
+          contenedores.push({
+            id: newData.sensor,
+            distanciaActual: newData.distancia ?? 0,
+            porcentajeLlenado: porcentaje,
+            estadoCritico: porcentaje >= 80,
+            estadoSensor: 'ONLINE',
+            ultimaRecoleccion: null,
+            ultimoDato: timestamp
+          });
+        }
 
         // Recalcular resumen
         const totalContenedores = contenedores.length;

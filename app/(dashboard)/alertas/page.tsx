@@ -1,11 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { mockAlertas } from '../../../data/mockData';
 import { cn } from '../../../lib/utils';
 
 export default function AlertasPage() {
   const [filtro, setFiltro] = useState<'TODAS' | 'PENDIENTE' | 'RESUELTA'>('TODAS');
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const alertasFiltradas = mockAlertas.filter((alerta) => {
     if (filtro === 'TODAS') return true;
@@ -79,7 +84,9 @@ export default function AlertasPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end pl-6 sm:pl-0">
-                  <span className="text-sm text-gray-400 whitespace-nowrap">{new Date(alerta.fecha).toLocaleString()}</span>
+                  <span className="text-sm text-gray-400 whitespace-nowrap">
+                    {isMounted ? new Date(alerta.fecha).toLocaleString() : ''}
+                  </span>
                   <span className={cn(
                     "px-3 py-1 rounded-full text-xs font-semibold shrink-0",
                     alerta.estado === 'PENDIENTE' ? "bg-orange-100 text-orange-700" : "bg-green-100 text-green-700"

@@ -4,6 +4,7 @@ import { Trash2, AlertTriangle, Blocks } from 'lucide-react';
 import StatCard from '../../components/dashboard/StatCard';
 import Chart from '../../components/dashboard/Chart';
 import BinVisualizer from '../../components/dashboard/BinVisualizer';
+import CameraView from '../../components/dashboard/CameraView';
 import { useDashboardData } from '../../hooks/useDashboardData';
 import { cn } from '../../lib/utils';
 
@@ -90,7 +91,10 @@ export default function DashboardPage() {
       </div>
 
       {/* ── Sección 3: Gráficas de Historial ── */}
-      <Chart historial={historial} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Chart historial={historial} />
+        <CameraView />
+      </div>
 
     </div>
   );
