@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Leaf, Scan, CheckCircle, ArrowLeft, Wifi, WifiOff, Camera, CameraOff, Play, Square } from 'lucide-react';
+import { Leaf, Scan, CheckCircle, ArrowLeft, ArrowRight, ArrowDown, Wifi, WifiOff, Camera, CameraOff, Play, Square } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useClasificacionData, Categoria, ResultadoClasificacion } from '../../hooks/useClasificacionData';
 import * as yoloApi from '../../services/yoloApi';
@@ -367,6 +367,86 @@ export default function PantallaClasificacion() {
           )}
         </div>
 
+        {/* ── Indicador de Destino del Contenedor ── */}
+        {estado === 'RESULTADO' && resultado && theme && (
+          <div className="mt-6 w-full max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <p className="text-center text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">
+              ¿Dónde depositarlo?
+            </p>
+
+            <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+              {/* Tres contenedores */}
+              <div className="flex items-end justify-between gap-4 mb-6">
+                {([
+                  { key: 'PAPEL_CARTON', label: 'Papel / Cartón', pos: 'IZQUIERDA', color: '#6B7280', bg: '#F3F4F6', icon: '📄' },
+                  { key: 'PLASTICO',     label: 'Plástico',        pos: 'CENTRO',    color: '#3B82F6', bg: '#EFF6FF', icon: '♻️' },
+                  { key: 'ORGANICO',     label: 'Orgánico',        pos: 'DERECHA',   color: '#22C55E', bg: '#F0FDF4', icon: '🌿' },
+                ] as const).map((bin) => {
+                  const isActive = bin.key === resultado.contenedor;
+                  return (
+                    <div
+                      key={bin.key}
+                      className={cn(
+                        'flex-1 flex flex-col items-center gap-2 rounded-xl py-5 px-3 transition-all duration-500',
+                        isActive ? 'shadow-xl' : 'opacity-35'
+                      )}
+                      style={{
+                        backgroundColor: isActive ? bin.bg : '#F9FAFB',
+                        border: `2px solid ${isActive ? bin.color : '#E5E7EB'}`,
+                        transform: isActive ? 'scale(1.08)' : 'scale(1)',
+                      }}
+                    >
+                      <span className="text-4xl">{bin.icon}</span>
+                      <span className="text-xs font-black uppercase tracking-widest mt-1" style={{ color: bin.color }}>
+                        {bin.label}
+                      </span>
+                      <span className="text-xs text-gray-400 font-medium">{bin.pos}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Flecha de dirección */}
+              <div className="flex items-center justify-center">
+                {resultado.contenedor === 'PAPEL_CARTON' && (
+                  <div className="flex items-center gap-1 text-gray-600 animate-[arrowPulseLeft_0.9s_ease-in-out_infinite]">
+                    <ArrowLeft className="w-12 h-12" />
+                    <ArrowLeft className="w-9 h-9 opacity-60" />
+                    <ArrowLeft className="w-6 h-6 opacity-30" />
+                    <span className="ml-3 text-xl font-black tracking-tight" style={{ color: '#6B7280' }}>
+                      Deposita a la IZQUIERDA
+                    </span>
+                  </div>
+                )}
+
+                {resultado.contenedor === 'PLASTICO' && (
+                  <div className="flex flex-col items-center gap-2 text-blue-600 animate-[arrowPulseDown_0.9s_ease-in-out_infinite]">
+                    <span className="text-xl font-black tracking-tight">Deposita al CENTRO</span>
+                    <div className="flex gap-1">
+                      <ArrowDown className="w-6 h-6 opacity-30" />
+                      <ArrowDown className="w-9 h-9 opacity-60" />
+                      <ArrowDown className="w-12 h-12" />
+                      <ArrowDown className="w-9 h-9 opacity-60" />
+                      <ArrowDown className="w-6 h-6 opacity-30" />
+                    </div>
+                  </div>
+                )}
+
+                {resultado.contenedor === 'ORGANICO' && (
+                  <div className="flex items-center gap-1 text-green-600 animate-[arrowPulseRight_0.9s_ease-in-out_infinite]">
+                    <span className="mr-3 text-xl font-black tracking-tight" style={{ color: '#22C55E' }}>
+                      Deposita a la DERECHA
+                    </span>
+                    <ArrowRight className="w-6 h-6 opacity-30" />
+                    <ArrowRight className="w-9 h-9 opacity-60" />
+                    <ArrowRight className="w-12 h-12" />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="mt-8 flex items-center gap-4">
           {cameraActive ? (
             <button
@@ -512,6 +592,18 @@ export default function PantallaClasificacion() {
           0% { top: 0%; }
           50% { top: 100%; }
           100% { top: 0%; }
+        }
+        @keyframes arrowPulseLeft {
+          0%, 100% { transform: translateX(0);   opacity: 1; }
+          50%       { transform: translateX(-8px); opacity: 0.7; }
+        }
+        @keyframes arrowPulseRight {
+          0%, 100% { transform: translateX(0);  opacity: 1; }
+          50%       { transform: translateX(8px); opacity: 0.7; }
+        }
+        @keyframes arrowPulseDown {
+          0%, 100% { transform: translateY(0);  opacity: 1; }
+          50%       { transform: translateY(6px); opacity: 0.7; }
         }
       `}</style>
     </div>

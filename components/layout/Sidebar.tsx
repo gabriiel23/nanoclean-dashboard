@@ -29,11 +29,6 @@ export default function Sidebar({ onClose }: SidebarProps) {
       icon: <Bell className="w-5 h-5" />,
       hasNotification: true,
     },
-    {
-      name: 'Nodos',
-      href: '/dashboard/nodos',
-      icon: <Cpu className="w-5 h-5" />,
-    },
   ];
 
   return (

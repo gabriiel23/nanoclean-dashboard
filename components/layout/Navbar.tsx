@@ -9,7 +9,6 @@ const PAGE_TITLES: Record<string, { title: string; subtitle: string }> = {
   '/clasificacion':                 { title: 'Clasificación', subtitle: 'Cámara de clasificación YOLOv8' },
   '/dashboard/clasificaciones-stats': { title: 'Clasificaciones', subtitle: 'Estadísticas del clasificador' },
   '/dashboard/alertas':             { title: 'Alertas', subtitle: 'Historial de eventos del sistema' },
-  '/dashboard/nodos':               { title: 'Estado de Nodos', subtitle: 'Red de sensores ESP32' },
   '/dashboard/contenedores':        { title: 'Flota de Contenedores', subtitle: 'Todos los contenedores registrados' },
   '/dashboard/ajustes':             { title: 'Ajustes', subtitle: 'Configuración del sistema' },
 };
