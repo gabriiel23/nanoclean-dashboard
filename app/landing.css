@@ -221,6 +221,7 @@
   font-weight: 800;
   line-height: 1.08;
   margin: 0 0 2rem;
+  color: var(--paper);
 }
 .hero__lede {
   max-width: 48ch;

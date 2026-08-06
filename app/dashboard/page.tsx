@@ -4,12 +4,13 @@ import { Trash2, AlertTriangle, Blocks } from 'lucide-react';
 import StatCard from '../../components/dashboard/StatCard';
 import Chart from '../../components/dashboard/Chart';
 import BinVisualizer from '../../components/dashboard/BinVisualizer';
-import CameraView from '../../components/dashboard/CameraView';
 import { useDashboardData } from '../../hooks/useDashboardData';
+import { useClasificacionData } from '../../hooks/useClasificacionData';
 import { cn } from '../../lib/utils';
 
 export default function DashboardPage() {
   const { data, loading, error } = useDashboardData();
+  const { estadisticas } = useClasificacionData();
 
   if (loading) {
     return (
@@ -90,10 +91,91 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* ── Sección 3: Gráficas de Historial ── */}
+      {/* ── Sección 3: Gráficas de Historial y Estadísticas de Clasificación ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Chart historial={historial} />
-        <CameraView />
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* Tarjeta Resumen */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center min-h-[250px]">
+            <h3 className="text-[16px] font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <span className="text-xl">📊</span> Resumen General
+            </h3>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center pb-3 border-b border-gray-100">
+                <span className="text-gray-500 font-medium text-sm">Clasificaciones Hoy</span>
+                <span className="text-xl font-black text-[#1B4332]">{estadisticas?.resumen?.totalClasificacionesHoy ?? 0}</span>
+              </div>
+              <div className="flex justify-between items-center pb-3 border-b border-gray-100">
+                <span className="text-gray-500 font-medium text-sm">Esta Semana</span>
+                <span className="text-xl font-black text-[#1B4332]">{estadisticas?.resumen?.totalClasificacionesSemana ?? 0}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-500 font-medium text-sm">Confianza Promedio de IA</span>
+                <span className="text-xl font-black text-[#52B788]">{estadisticas?.resumen?.confianzaPromedio ?? 0}%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Tarjeta Distribución */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center min-h-[250px]">
+            <h3 className="text-[16px] font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <span className="text-xl">📈</span> Distribución de Residuos
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                  <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+                </div>
+                <div className="flex-1">
+                  <div className="flex justify-between mb-1">
+                    <span className="text-xs font-bold text-gray-700">Orgánico</span>
+                    <span className="text-xs font-bold text-green-600">
+                      {estadisticas?.resumen?.distribucionContenedores?.ORGANICO?.porcentaje ?? 0}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-100 rounded-full h-1.5">
+                    <div className="bg-green-500 h-1.5 rounded-full transition-all duration-500" style={{ width: `${estadisticas?.resumen?.distribucionContenedores?.ORGANICO?.porcentaje ?? 0}%` }}></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                  <span className="w-3 h-3 bg-gray-500 rounded-full"></span>
+                </div>
+                <div className="flex-1">
+                  <div className="flex justify-between mb-1">
+                    <span className="text-xs font-bold text-gray-700">Papel / Cartón</span>
+                    <span className="text-xs font-bold text-gray-600">
+                      {estadisticas?.resumen?.distribucionContenedores?.PAPEL_CARTON?.porcentaje ?? 0}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-100 rounded-full h-1.5">
+                    <div className="bg-gray-500 h-1.5 rounded-full transition-all duration-500" style={{ width: `${estadisticas?.resumen?.distribucionContenedores?.PAPEL_CARTON?.porcentaje ?? 0}%` }}></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                  <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                </div>
+                <div className="flex-1">
+                  <div className="flex justify-between mb-1">
+                    <span className="text-xs font-bold text-gray-700">Plástico</span>
+                    <span className="text-xs font-bold text-blue-600">
+                      {estadisticas?.resumen?.distribucionContenedores?.PLASTICO?.porcentaje ?? 0}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-100 rounded-full h-1.5">
+                    <div className="bg-blue-500 h-1.5 rounded-full transition-all duration-500" style={{ width: `${estadisticas?.resumen?.distribucionContenedores?.PLASTICO?.porcentaje ?? 0}%` }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>

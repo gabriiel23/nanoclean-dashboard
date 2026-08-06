@@ -1,18 +1,54 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { mockAlertas } from '../../../data/mockData';
-import { cn } from '../../../lib/utils';
+import { cn, BACKEND_URL } from '../../../lib/utils';
+
+interface Alerta {
+  id: number;
+  contenedorId: string;
+  tipo: string;
+  ubicacion: string;
+  estado: string;
+  fecha: string;
+}
 
 export default function AlertasPage() {
+  const [alertas, setAlertas] = useState<Alerta[]>([]);
   const [filtro, setFiltro] = useState<'TODAS' | 'PENDIENTE' | 'RESUELTA'>('TODAS');
-  const [isMounted, setIsMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setIsMounted(true);
+    fetchAlertas();
   }, []);
 
-  const alertasFiltradas = mockAlertas.filter((alerta) => {
+  const fetchAlertas = async () => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/alertas`);
+      const data = await res.json();
+      if (!res.ok || !Array.isArray(data)) {
+        throw new Error(data.error || 'No se pudieron cargar las alertas');
+      }
+      setAlertas(data);
+    } catch (error) {
+      console.error('Error obteniendo alertas:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resolverAlerta = async (id: number) => {
+    try {
+      await fetch(`${BACKEND_URL}/api/alertas/${id}/resolver`, {
+        method: 'PUT'
+      });
+      // Actualizar la lista local
+      setAlertas(alertas.map(a => a.id === id ? { ...a, estado: 'RESUELTA' } : a));
+    } catch (error) {
+      console.error('Error al resolver alerta:', error);
+    }
+  };
+
+  const alertasFiltradas = alertas.filter((alerta) => {
     if (filtro === 'TODAS') return true;
     return alerta.estado === filtro;
   });
@@ -64,7 +100,9 @@ export default function AlertasPage() {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        {alertasFiltradas.length === 0 ? (
+        {loading ? (
+          <div className="p-12 text-center text-gray-500">Cargando alertas...</div>
+        ) : alertasFiltradas.length === 0 ? (
           <div className="p-12 text-center">
             <p className="text-gray-400 font-medium">No se encontraron alertas en esta categoría</p>
           </div>
@@ -85,14 +123,21 @@ export default function AlertasPage() {
                 </div>
                 <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end pl-6 sm:pl-0">
                   <span className="text-sm text-gray-400 whitespace-nowrap">
-                    {isMounted ? new Date(alerta.fecha).toLocaleString() : ''}
+                    {new Date(alerta.fecha).toLocaleString()}
                   </span>
-                  <span className={cn(
-                    "px-3 py-1 rounded-full text-xs font-semibold shrink-0",
-                    alerta.estado === 'PENDIENTE' ? "bg-orange-100 text-orange-700" : "bg-green-100 text-green-700"
-                  )}>
-                    {alerta.estado}
-                  </span>
+                  
+                  {alerta.estado === 'PENDIENTE' ? (
+                    <button 
+                      onClick={() => resolverAlerta(alerta.id)}
+                      className="px-3 py-1 rounded-full text-xs font-semibold shrink-0 bg-orange-100 text-orange-700 hover:bg-orange-200 transition-colors"
+                    >
+                      Marcar Resuelta
+                    </button>
+                  ) : (
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold shrink-0 bg-green-100 text-green-700">
+                      RESUELTA
+                    </span>
+                  )}
                 </div>
               </li>
             ))}

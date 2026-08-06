@@ -9,28 +9,43 @@ interface BinVisualizerProps {
 export default function BinVisualizer({ contenedor }: BinVisualizerProps) {
   const { id, porcentajeLlenado, estadoCritico, estadoSensor } = contenedor;
 
-  // Lógica de colores neón según el porcentaje
-  let fillColorClass = 'bg-green-400 shadow-[0_0_15px_rgba(74,222,128,0.5)]'; // Verde neón para < 50%
+  // Lógica de colores personalizados según la categoría del contenedor
+  let fillColorClass = 'bg-gray-400 shadow-[0_0_15px_rgba(156,163,175,0.4)]'; // Gris por defecto
   let animateClass = '';
 
-  if (porcentajeLlenado >= 80 || estadoCritico) {
-    fillColorClass = 'bg-red-500 shadow-[0_0_20px_rgba(239,68,68,0.8)]'; // Rojo brillante para >= 80%
-    animateClass = 'animate-pulse';
-  } else if (porcentajeLlenado >= 50) {
-    fillColorClass = 'bg-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.5)]'; // Amarillo para 50% - 79%
+  if (id === 'sensor1') {
+    // Orgánico ➔ Verde
+    fillColorClass = 'bg-[#52B788] shadow-[0_0_15px_rgba(82,183,136,0.5)]';
+  } else if (id === 'sensor2') {
+    // Plástico ➔ Azul
+    fillColorClass = 'bg-[#2563EB] shadow-[0_0_15px_rgba(37,99,235,0.5)]';
+  } else if (id === 'sensor3') {
+    // Papel / Cartón ➔ Gris
+    fillColorClass = 'bg-[#9CA3AF] shadow-[0_0_15px_rgba(156,163,175,0.5)]';
   }
 
-  // Si está offline, se muestra gris
-  if (estadoSensor === 'OFFLINE') {
-    fillColorClass = 'bg-gray-400';
-    animateClass = '';
+  // Alerta Crítica (>= 85%) sobrescribe el color a Rojo parpadeante
+  if (porcentajeLlenado >= 85 || estadoCritico) {
+    fillColorClass = 'bg-[#E63946] shadow-[0_0_20px_rgba(230,57,70,0.8)]';
+    animateClass = 'animate-pulse';
   }
+
+  // Mapeo de nombres legibles para los sensores del backend
+  const sensorNames: Record<string, string> = {
+    sensor1: 'sensor contenedor organico',
+    sensor2: 'Sensor contenedor Plasticos',
+    sensor3: 'sensor contenedor Papel/carton',
+  };
+
+  const displayName = sensorNames[id] || id;
 
   return (
     <div className="flex flex-col items-center gap-3">
       {/* Información Superior */}
-      <div className="text-center">
-        <h3 className="font-bold text-gray-800">{id}</h3>
+      <div className="text-center flex flex-col items-center">
+        <h3 className="font-bold text-gray-800 text-xs text-center max-w-[120px] leading-tight min-h-[32px] flex items-center justify-center">
+          {displayName}
+        </h3>
         <span className={cn(
           "text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 inline-block",
           estadoSensor === 'ONLINE' ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"

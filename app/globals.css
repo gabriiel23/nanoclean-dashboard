@@ -1,1 +1,62 @@
 @import "tailwindcss";
+
+@theme {
+  --color-ink: #111111;
+  --color-ink-2: #222222;
+  --color-paper: #f4f3f0;
+  --color-paper-2: #ffffff;
+  --color-muted: #6b7280;
+
+  --color-line: rgba(0, 0, 0, 0.06);
+  --color-line-soft: rgba(0, 0, 0, 0.03);
+  --color-line-dark: rgba(0, 0, 0, 0.1);
+
+  --color-m-papel: #9ca3af;
+  --color-m-plastico: #3b82f6;
+  --color-m-organico: #0e9947;
+  --color-m-vidrio: #8b5cf6;
+  --color-m-metal: #64748b;
+
+  --color-alert: #ef4444;
+
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  :root {
+    --ink: #111111;
+    --ink-2: #222222;
+    --paper: #f4f3f0;
+    --paper-2: #ffffff;
+    --muted: #6b7280;
+    --line: rgba(0, 0, 0, 0.06);
+    --line-soft: rgba(0, 0, 0, 0.03);
+    --line-dark: rgba(0, 0, 0, 0.1);
+    --m-papel: #9ca3af;
+    --m-plastico: #3b82f6;
+    --m-organico: #0e9947;
+    --m-vidrio: #8b5cf6;
+    --m-metal: #64748b;
+    --alert: #ef4444;
+    --wrap: 1200px;
+    --pad: clamp(1.25rem, 5vw, 4rem);
+
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.06);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    color: var(--muted);
+  }
+}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
+import { BACKEND_URL } from '../lib/utils';
 
 export type Categoria = 'ORGANICO' | 'PAPEL_CARTON' | 'PLASTICO';
 
@@ -54,7 +55,7 @@ export function useClasificacionData(): UseClasificacionDataReturn {
 
   const fetchEstadisticas = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/dashboard/clasificacion/resumen');
+      const res = await fetch(`${BACKEND_URL}/api/dashboard/clasificacion/resumen`);
       if (!res.ok) throw new Error('Error al cargar estadísticas');
       const data = await res.json();
       setEstadisticas(data);
@@ -66,7 +67,7 @@ export function useClasificacionData(): UseClasificacionDataReturn {
   const conectar = useCallback(() => {
     if (socketRef.current?.connected) return;
 
-    const newSocket = io('http://localhost:3001', {
+    const newSocket = io(BACKEND_URL, {
       transports: ['websocket', 'polling'],
       reconnection: true,
       reconnectionDelay: 1000,

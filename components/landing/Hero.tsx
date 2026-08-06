@@ -1,21 +1,35 @@
 'use client';
-
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IMG } from './images';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(useGSAP);
+}
 
 export default function Hero() {
-  // Animación única del medidor de llenado al cargar la página.
+  // Animación telemétrica fluida utilizando GSAP al cargar la página.
   const [fill, setFill] = useState(0);
 
-  useEffect(() => {
+  useGSAP(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) {
       setFill(87);
       return;
     }
-    const t = setTimeout(() => setFill(87), 250);
-    return () => clearTimeout(t);
-  }, []);
+
+    const obj = { value: 0 };
+    gsap.to(obj, {
+      value: 87,
+      duration: 1.8,
+      delay: 0.2,
+      ease: 'power3.out',
+      onUpdate: () => {
+        setFill(Math.floor(obj.value));
+      }
+    });
+  });
 
   return (
     <header className="hero" id="top">

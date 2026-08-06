@@ -1,5 +1,7 @@
-const YOLO_SERVICE_URL = 'http://localhost:8080';
-const EXPRESS_URL = 'http://localhost:3001';
+import { BACKEND_URL } from '../lib/utils';
+
+const YOLO_SERVICE_URL = 'https://api-yolo.uidehub.tech/';
+const EXPRESS_URL = BACKEND_URL;
 
 export interface CameraStatus {
   success: boolean;

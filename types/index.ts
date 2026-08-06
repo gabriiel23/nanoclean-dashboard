@@ -56,7 +56,7 @@ export interface ContenedorBackend {
   porcentajeLlenado: number;
   estadoCritico: boolean;
   estadoSensor: 'ONLINE' | 'OFFLINE';
-  ultimaRecoleccion: string;
+  ultimaRecoleccion: string | null;
   ultimoDato: string;
 }
 

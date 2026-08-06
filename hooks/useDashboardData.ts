@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { DashboardResponseBackend, ContenedorBackend } from '../types';
+import { BACKEND_URL } from '../lib/utils';
 
 export function useDashboardData() {
   const [data, setData] = useState<DashboardResponseBackend | null>(null);
@@ -13,7 +14,7 @@ export function useDashboardData() {
     // 1. Carga Inicial REST
     async function fetchInitialData() {
       try {
-        const res = await fetch('http://localhost:3001/api/dashboard');
+        const res = await fetch(`${BACKEND_URL}/api/dashboard`);
         if (!res.ok) throw new Error('Error al cargar datos del backend');
         const json = await res.json();
         setData(json);
@@ -27,7 +28,7 @@ export function useDashboardData() {
     fetchInitialData();
 
     // 2. Conexión WebSocket
-    const socket: Socket = io('http://localhost:3001');
+    const socket: Socket = io(BACKEND_URL);
 
     socket.on('sensorData', (newData: any) => {
       // newData esperado: { sensor: 'sensor1', distancia: 6.76, porcentajeLlenado: 77.5, timestamp: '...' }
@@ -45,7 +46,7 @@ export function useDashboardData() {
               ...c,
               distanciaActual: newData.distancia ?? c.distanciaActual,
               porcentajeLlenado: porcentaje,
-              estadoCritico: porcentaje >= 80,
+              estadoCritico: porcentaje >= 85,
               ultimoDato: timestamp
             };
           }
@@ -57,7 +58,7 @@ export function useDashboardData() {
             id: newData.sensor,
             distanciaActual: newData.distancia ?? 0,
             porcentajeLlenado: porcentaje,
-            estadoCritico: porcentaje >= 80,
+            estadoCritico: porcentaje >= 85,
             estadoSensor: 'ONLINE',
             ultimaRecoleccion: null,
             ultimoDato: timestamp
